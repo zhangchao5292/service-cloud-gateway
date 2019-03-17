@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: service-center-gateway
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+zuul:
+  routes:
+    service-auth:
+      path: /strategy/**
+#      反向代理到这个服务
+      serviceId: service-center
+    demo-service:
+      path: /abc/**
+      url: https://ken.io/note/spring-cloud-zuul-quickstart
+  host:
+    socket-timeout-millis: 60000
+    connect-timeout-millis: 60000
+    # 是否开启重试功能
+  retryable: true
+
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+ribbon:
+  ReadTimeout: 3000
+  ConnectTimeout: 60000
+  #对当前服务的重试次数
+  MaxAutoRetries: 3
+  MaxAutoRetriesNextServer: 0
